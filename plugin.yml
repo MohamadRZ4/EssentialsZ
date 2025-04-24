@@ -1,0 +1,29 @@
+---
+name: EssentialsZ
+version: 0.0.1
+main: MohamadRZ\EssentialsZ\Main
+api: 5.25.1
+src-namespace-prefix: MohamadRZ\EssentialsZ
+
+permissions:
+  essentialsz.command.nick:
+    description: Allows using the /nick command to set your own nickname.
+    default: true
+
+  essentialsz.command.nick.others:
+    description: Allows setting nicknames for other players.
+    default: op
+
+  essentialsz.command.nick.allowunsafe:
+    description: Allows bypassing nickname regex and max length restrictions.
+    default: op
+
+  essentialsz.command.nick.blacklist.bypass:
+    description: Allows bypassing blacklist filters for nicknames.
+    default: op
+
+  essentialsz.command.nick.hideprefix:
+    description: Hides the nickname prefix when setting a nickname.
+    default: op
+
+...
