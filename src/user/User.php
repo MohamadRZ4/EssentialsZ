@@ -19,10 +19,13 @@ class User
     private mixed $firstJoinTime;
     private mixed $lastPosition;
     private mixed $nickname;
-    /**
-     * @var ?Player
-     */
+    /** @var ?Player */
     private ?Player $parent;
+    /** @var array<string, mixed> */
+    private array $tempData = [];
+    private mixed $socialSpyEnabled;
+    private mixed $spiderEnabled;
+    private mixed $flyEnabled;
 
     public function __construct($xuid, $data)
     {
@@ -32,9 +35,12 @@ class User
         $this->joinTime = $data["joinTime"];
         $this->quitTime = $data["quitTime"];
         $this->firstJoinTime = $data["firstJoinTime"];
-        $this->lastPosition = PositionUtils::stringToPosition($data["lastPosition"]);
-        $this->isJaild = $data["isJaild"];
+        $this->lastPosition = $data["lastPosition"] !== null ? PositionUtils::stringToPosition($data["lastPosition"]) : "";
+        $this->isJaild = $data["isJailed"];
         $this->nickname = $data["nickname"];
+        $this->socialSpyEnabled = $data["socialSpy"];
+        $this->flyEnabled = $data["fly"];
+        $this->spiderEnabled = $data["spider"];
     }
 
     /**
@@ -138,7 +144,7 @@ class User
      */
     public function getNickname(): mixed
     {
-        return $this->nickname;
+        return $this->nickname === "none" ? $this->getUsername() : $this->nickname;
     }
 
     /**
@@ -146,6 +152,12 @@ class User
      */
     public function setNickname(mixed $nickname): void
     {
+        if ($nickname === "none") {
+            $this->setNickname("none");
+            $this->getParent()?->setDisplayName($this->getParent()?->getName());
+            return;
+        }
+
         $this->nickname = $nickname;
         $this->getParent()?->setDisplayName($this->getNickname());
     }
@@ -158,12 +170,54 @@ class User
         return $this->parent;
     }
 
+    public function setSize(int $size): void
+    {
+        $this->getParent()?->setScale($size);
+    }
+
     /**
      * @param Player|null $parent
      */
     public function setParent(?Player $parent): void
     {
         $this->parent = $parent;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
+    public function setTempData(string $key, mixed $value): void
+    {
+        $this->tempData[$key] = $value;
+    }
+
+    /**
+     * @param string $key
+     * @return mixed|null
+     */
+    public function getTempData(string $key): mixed
+    {
+        return $this->tempData[$key] ?? null;
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    public function hasTempData(string $key): bool
+    {
+        return array_key_exists($key, $this->tempData);
+    }
+
+    /**
+     * @param string $key
+     * @return void
+     */
+    public function unsetTempData(string $key): void
+    {
+        unset($this->tempData[$key]);
     }
 
     public function getData(): array
@@ -178,5 +232,37 @@ class User
             "isJaild" => $this->isJaild,
             "nickname" => $this->nickname,
         ];
+    }
+
+    public function setSocialSpyEnabled(bool $enabled): void
+    {
+        $this->socialSpyEnabled = $enabled;
+    }
+
+    public function isSocialSpyEnabled()
+    {
+        return $this->socialSpyEnabled;
+    }
+
+    public function setFlyEnabled(bool $enabled): void
+    {
+        $this->flyEnabled = $enabled;
+        $this->getParent()?->setAllowFlight($enabled);
+        $this->getParent()?->setFlying($enabled);
+    }
+
+    public function isFlyEnabled()
+    {
+        return $this->flyEnabled;
+    }
+
+    public function setSpiderEnabled(bool $enabled): void
+    {
+        $this->spiderEnabled = $enabled;
+    }
+
+    public function isSpiderEnabled()
+    {
+        return $this->spiderEnabled;
     }
 }

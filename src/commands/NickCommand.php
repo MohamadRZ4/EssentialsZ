@@ -3,6 +3,7 @@
 namespace MohamadRZ\EssentialsZ\commands;
 
 use MohamadRZ\EssentialsZ\EssentialsZPlugin;
+use MohamadRZ\EssentialsZ\settings\SettingPaths;
 use MohamadRZ\EssentialsZ\user\User;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
@@ -35,7 +36,25 @@ class NickCommand extends Command
         $targetName = null;
         $nickname = null;
 
-        if (count($args) === 1) {
+        if (strtolower($args[0]) === "reset") {
+            if (!$sender instanceof Player && !($sender instanceof CommandSender)) {
+                $sender->sendMessage(TextFormat::RED . "Only players or the console can reset nicknames.");
+                return;
+            }
+
+            if (count($args) === 1) {
+                if (!$sender->hasPermission("essentialsz.command.nick.reset.others")) {
+                    $sender->sendMessage(TextFormat::RED . "You don't have permission to reset others' nicknames.");
+                    return;
+                }
+
+                $targetName = $args[1];
+                $nickname = null;
+            } else {
+                $targetName = $sender->getName();
+                $nickname = null;
+            }
+        } elseif (count($args) === 1) {
             if (!$sender instanceof Player) {
                 $sender->sendMessage(TextFormat::RED . "Only players can set their own nickname.");
                 return;
@@ -68,15 +87,20 @@ class NickCommand extends Command
         }
     }
 
-    private function setNickname(CommandSender $sender, User $user, string $nickname): string|bool
+    public function setNickname(CommandSender $sender, User $user, ?string $nickname): string|bool
     {
         $config = $this->plugin->getConfig();
 
-        $prefix = $this->plugin->getSettings()->getNickNamePrefix();
-        $maxLength = $this->plugin->getSettings()->getMaxNickLength();
-        $allowedRegex = $this->plugin->getSettings()->getAllowedNicksRegex();
-        $blacklist = $this->plugin->getSettings()->getNickBlackList();
-        $ignoreColors = $this->plugin->getSettings()->getIgnoreColorsInMaxNickLength();
+        if ($nickname === null) {
+            $user->setNickname("none");
+            return true;
+        }
+
+        $prefix = $this->plugin->getSettings()->getSettings(SettingPaths::NICKNAME_PREFIX);
+        $maxLength = $this->plugin->getSettings()->getSettings(SettingPaths::MAX_NICK_LENGTH);
+        $allowedRegex = $this->plugin->getSettings()->getSettings(SettingPaths::ALLOWED_NICKS_REGEX);
+        $blacklist = $this->plugin->getSettings()->getSettings(SettingPaths::NICK_BLACKLIST);
+        $ignoreColors = $this->plugin->getSettings()->getSettings(SettingPaths::IGNORE_COLORS_IN_MAX_NICK_LENGTH);
 
         $allowUnsafe = $sender->hasPermission("essentialsz.command.nick.allowunsafe");
         $bypassBlacklist = $sender->hasPermission("essentialsz.command.nick.blacklist.bypass");

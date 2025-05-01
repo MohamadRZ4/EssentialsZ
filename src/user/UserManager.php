@@ -70,6 +70,8 @@ class UserManager {
             "username" => $username,
             "firstJoinTime" => time(),
             "lastLoginTime" => time(),
+            "joinTime" => time(),
+            "quitTime" => "none",
             "lastPosition" => null,
             "isJailed" => false,
             "nickname" => "none"

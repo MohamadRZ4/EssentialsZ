@@ -1,14 +1,13 @@
----
 name: EssentialsZ
 version: 0.0.1
-main: MohamadRZ\EssentialsZ\Main
+main: MohamadRZ\EssentialsZ\EssentialsZPlugin
 api: 5.25.1
 src-namespace-prefix: MohamadRZ\EssentialsZ
 
 permissions:
   essentialsz.command.nick:
     description: Allows using the /nick command to set your own nickname.
-    default: true
+    default: op
 
   essentialsz.command.nick.others:
     description: Allows setting nicknames for other players.
@@ -26,4 +25,126 @@ permissions:
     description: Hides the nickname prefix when setting a nickname.
     default: op
 
-...
+  essentialsz.command.realname:
+    description: Allows the player to use /realname command.
+    default: true
+
+  essentialsz.size:
+    description: Allows changing your own size.
+    default: op
+
+  essentialsz.size.others:
+    description: Allows changing other players' size.
+    default: op
+
+  essentialsz.command.gamemode:
+    description: Allows using the /gamemode command
+    default: op
+
+  essentialsz.command.god:
+    description: Allows using the /god command to toggle God Mode.
+    default: op
+
+  essentialsz.command.spider:
+    description: "Allows using the /spider command."
+    default: op
+
+  essentialsz.command.fly:
+    description: "Allows using the /fly command to toggle flying mode."
+    default: op
+
+  essentialsz.command.fly.others:
+    description: "Allows using the /fly command to toggle flying mode for other players."
+    default: op
+
+  essentialsz.command.spider.others:
+    description: "Allows using the /spider command to toggle spider mode for other players."
+    default: op
+
+  essentialsz.command.break:
+    default: op
+    description: "Allows the player to break the block they are looking at using /break"
+
+  essentialsz.command.break.bedrock:
+    default: op
+    description: "Allows the player to break Bedrock blocks using /break"
+
+  essentials.socialspy:
+    description: Allows the player to toggle social spy mode
+    default: op
+
+  essentials.socialspy.others:
+    description: Allows the player to toggle social spy on other players
+    default: op
+
+  essentials.sudo:
+    description: Allows user to run commands as another player.
+    default: op
+
+  essentials.sudo.exempt:
+    description: Exempt players from being sudoed.
+    default: op
+
+  essentialsz.command.createwarp:
+    description: "Allows player to create warps"
+    default: op
+
+  essentialsz.command.delwarp:
+    description: "Allows player to delete warps"
+    default: op
+
+  essentialsz.command.openwarp:
+    description: "Allows player to open a warp"
+    default: op
+
+  essentialsz.command.closewarp:
+    description: "Allows player to close a warp"
+    default: op
+
+  essentialsz.command.warps:
+    description: "Allows player to list all warps"
+    default: true
+
+  essentialsz.command.warp:
+    description: "Allows player to use warp"
+    default: true
+
+  essentialsz.warp.bypass:
+    description: "Allows player to bypass closed warps"
+    default: op
+
+  essentialsz.command.heal:
+    description: Allows player to heal themselves
+    default: true
+
+  essentialsz.command.heal.others:
+    description: Allows player to heal others
+    default: op
+
+  essentialsz.command.feed:
+    description: Allows player to feed themselves
+    default: true
+
+  essentialsz.command.feed.others:
+    description: Allows player to feed others
+    default: op
+
+#  essentialsz.command.fireball:
+#    default: op
+#    description: Allows using the /fireball command.
+
+#  essentialsz.command.fireball.fireball:
+#    default: op
+#    description: Allows launching regular fireballs.
+
+#  essentialsz.command.fireball.arrow:
+#    default: op
+#    description: Allows launching arrows with /fireball.
+
+#  essentialsz.command.fireball.snowball:
+#    default: op
+#    description: Allows launching snowballs with /fireball.
+
+#  essentialsz.command.fireball.egg:
+#    default: op
+#    description: Allows launching eggs with /fireball.

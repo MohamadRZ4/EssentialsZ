@@ -18,8 +18,46 @@ allowed-nicks-regex: '^[a-zA-Z_0-9§]+$'
 # Users with essentials.nick.blacklist.bypass will be able to bypass this filter.
 nick-blacklist:
 #- Notch
-#- '^Dinnerbone'
+#- 'MohamadRZ'
+
+commands:
+  - "nick"
+  - "realname"
+  - "size"
+  - "gmv"
+  - "gms"
+  - "gmc"
+  - "gma"
 
 # When this option is enabled, nickname length checking will exclude color codes in player names.
 # ie: "&6Notch" has 7 characters (2 are part of a color code), a length of 5 is used when this option is set to true
 ignore-colors-in-max-nick-length: false
+
+# Enables or disables the player size system entirely.
+# If disabled, all related commands and features will be inactive.
+size:
+  # The minimum and maximum allowed player size.
+  # Use -1 to disable the limit (no size restrictions).
+  min: 0.1
+  max: 100
+
+  # The default size players will have when they join or reset.
+  # If a player's size is reset, this value will be applied.
+  default: 100
+
+  # Cooldown time (in seconds) between each size change.
+  # Use -1 to disable the cooldown system.
+  cooldown: 10
+
+  # List of allowed worlds where size changing is permitted.
+  # If empty or not specified, size changing is allowed in all worlds.
+  allowed-worlds:
+    - world        # The "world" world allows size changes.
+    - lobby        # The "lobby" world allows size changes.
+
+  # List of blacklisted worlds where size changing is not allowed.
+  # If empty or not specified, no worlds are blacklisted.
+  blacklisted-worlds:
+  # example
+  #  - world_nether  # The "world_nether" world disallows size changes.
+  #  - world_the_end # The "world_the_end" world disallows size changes.

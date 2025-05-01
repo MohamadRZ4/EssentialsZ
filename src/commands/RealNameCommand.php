@@ -9,12 +9,15 @@ use MohamadRZ\EssentialsZ\EssentialsZPlugin;
 
 class RealNameCommand extends Command
 {
-    public function __construct()
+    private $plugin;
+    public function __construct(EssentialsZPlugin $plugin)
     {
         parent::__construct("realname", "Shows the real name of a player", "/realname <nickname>");
+        $this->setPermission("essentialsz.command.realname");
+        $this->plugin = $plugin;
     }
 
-    public function execute(CommandSender $sender, string $commandLabel, array $args)
+    public function execute(CommandSender $sender, string $commandLabel, array $args): void
     {
         if (!$sender instanceof Player) {
             $sender->sendMessage("This command can only be executed by a player.");
@@ -26,16 +29,14 @@ class RealNameCommand extends Command
             return;
         }
 
-        $nicknameInput = preg_replace('/§[0-9a-fk-or]/i', '', $args[0]);
+        $normalize = fn(string $text) => strtolower(preg_replace('/§[0-9a-fk-or]/i', '', $text));
 
-        $onlinePlayers = EssentialsZPlugin::getInstance()->getServer()->getOnlinePlayers();
+        $nicknameInput = $normalize($args[0]);
 
-        foreach ($onlinePlayers as $online) {
-            $user = EssentialsZPlugin::getInstance()->getUserManager()->getUser($online);
+        foreach ($this->plugin->getServer()->getOnlinePlayers() as $online) {
+            $user = $this->plugin->getUserManager()->getUser($online);
             $nickname = $user->getNickname();
-            $cleanedNickname = preg_replace('/§[0-9a-fk-or]/i', '', $nickname);
-
-            if (strcasecmp($cleanedNickname, $nicknameInput) === 0) {
+            if ($normalize($nickname) === $nicknameInput) {
                 $sender->sendMessage("The real name of player '{$args[0]}' is " . $online->getName() . ".");
                 return;
             }
