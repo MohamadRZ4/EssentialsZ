@@ -49,8 +49,8 @@ class CommandSocialSpy extends Command {
     }
 
     protected function togglePlayer(CommandSender $sender, User $user): void {
-        $enabled = !$user->isSocialSpyEnabled();
-        $user->setSocialSpyEnabled($enabled);
+        $enabled = !$user->getTempData("isSocialSpyEnabled");
+        $user->setTempData("isSocialSpyEnabled", true);
 
         $message = $enabled ? "enabled" : "disabled";
         $user->getParent()->sendMessage(TextFormat::GREEN . "Social spy $message.");

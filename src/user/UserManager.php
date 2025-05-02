@@ -73,8 +73,7 @@ class UserManager {
             "joinTime" => time(),
             "quitTime" => "none",
             "lastPosition" => null,
-            "isJailed" => false,
-            "nickname" => "none"
+            "isJailed" => false
         ]);
 
         $user = new User($xuid, $config->getAll());

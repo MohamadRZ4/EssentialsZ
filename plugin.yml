@@ -5,29 +5,6 @@ api: 5.25.1
 src-namespace-prefix: MohamadRZ\EssentialsZ
 
 permissions:
-  essentialsz.command.nick:
-    description: Allows using the /nick command to set your own nickname.
-    default: op
-
-  essentialsz.command.nick.others:
-    description: Allows setting nicknames for other players.
-    default: op
-
-  essentialsz.command.nick.allowunsafe:
-    description: Allows bypassing nickname regex and max length restrictions.
-    default: op
-
-  essentialsz.command.nick.blacklist.bypass:
-    description: Allows bypassing blacklist filters for nicknames.
-    default: op
-
-  essentialsz.command.nick.hideprefix:
-    description: Hides the nickname prefix when setting a nickname.
-    default: op
-
-  essentialsz.command.realname:
-    description: Allows the player to use /realname command.
-    default: true
 
   essentialsz.size:
     description: Allows changing your own size.
@@ -35,10 +12,6 @@ permissions:
 
   essentialsz.size.others:
     description: Allows changing other players' size.
-    default: op
-
-  essentialsz.command.gamemode:
-    description: Allows using the /gamemode command
     default: op
 
   essentialsz.command.god:
@@ -81,10 +54,6 @@ permissions:
     description: Allows user to run commands as another player.
     default: op
 
-  essentials.sudo.exempt:
-    description: Exempt players from being sudoed.
-    default: op
-
   essentialsz.command.createwarp:
     description: "Allows player to create warps"
     default: op
@@ -115,7 +84,7 @@ permissions:
 
   essentialsz.command.heal:
     description: Allows player to heal themselves
-    default: true
+    default: op
 
   essentialsz.command.heal.others:
     description: Allows player to heal others
@@ -123,28 +92,30 @@ permissions:
 
   essentialsz.command.feed:
     description: Allows player to feed themselves
-    default: true
+    default: op
 
   essentialsz.command.feed.others:
     description: Allows player to feed others
     default: op
 
-#  essentialsz.command.fireball:
-#    default: op
-#    description: Allows using the /fireball command.
-
-#  essentialsz.command.fireball.fireball:
-#    default: op
-#    description: Allows launching regular fireballs.
-
-#  essentialsz.command.fireball.arrow:
-#    default: op
-#    description: Allows launching arrows with /fireball.
-
-#  essentialsz.command.fireball.snowball:
-#    default: op
-#    description: Allows launching snowballs with /fireball.
-
-#  essentialsz.command.fireball.egg:
-#    default: op
-#    description: Allows launching eggs with /fireball.
+  essentialsz.command.gamemode:
+    description: Allows the user to change their own game mode.
+    default: op
+  essentialsz.command.gamemode.survival:
+    description: Allows the user to switch to survival mode.
+    default: op
+  essentialsz.command.gamemode.creative:
+    description: Allows the user to switch to creative mode.
+    default: op
+  essentialsz.command.gamemode.adventure:
+    description: Allows the user to switch to adventure mode.
+    default: op
+  essentialsz.command.gamemode.spectator:
+    description: Allows the user to switch to spectator mode.
+    default: op
+  essentialsz.command.gamemode.others:
+    description: Allows the user to change the game mode of other players.
+    default: op
+  essentialsz.command.bypass.cooldown:
+    description: Bypass cooldown for commands
+    default: op

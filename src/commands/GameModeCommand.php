@@ -65,12 +65,23 @@ class GameModeCommand extends Command
             return;
         }
 
-        // هدف
+        // پرمیشن‌های گیم مودها
+        if (!$this->hasPermissionForMode($sender, $modeKey)) {
+            $sender->sendMessage(TextFormat::RED . "You don't have permission to change to this gamemode.");
+            return;
+        }
+
         if (isset($args[0])) {
             $targetName = $args[0];
             $target = EssentialsZPlugin::getInstance()->getServer()->getPlayerExact($targetName);
             if (!$target) {
                 $sender->sendMessage(TextFormat::RED . "Player not found: $targetName");
+                return;
+            }
+
+            // پرمیشن تغییر گیم مود برای دیگران
+            if (!$this->hasPermissionToChangeOther($sender)) {
+                $sender->sendMessage(TextFormat::RED . "You don't have permission to change other player's gamemode.");
                 return;
             }
         }
@@ -87,5 +98,30 @@ class GameModeCommand extends Command
             $sender->sendMessage(TextFormat::GREEN . "Changed " . $target->getName() . "'s game mode to " . $gameMode->name());
             $target->sendMessage(TextFormat::GREEN . "Your game mode has been changed to " . $gameMode->name());
         }
+    }
+
+    private function hasPermissionForMode(CommandSender $sender, string $modeKey): bool
+    {
+        switch ($modeKey) {
+            case 's':
+            case 'survival':
+                return $sender->hasPermission("essentialsz.command.gamemode.survival");
+            case 'c':
+            case 'creative':
+                return $sender->hasPermission("essentialsz.command.gamemode.creative");
+            case 'a':
+            case 'adventure':
+                return $sender->hasPermission("essentialsz.command.gamemode.adventure");
+            case 'sp':
+            case 'spectator':
+                return $sender->hasPermission("essentialsz.command.gamemode.spectator");
+            default:
+                return false;
+        }
+    }
+
+    private function hasPermissionToChangeOther(CommandSender $sender): bool
+    {
+        return $sender->hasPermission("essentialsz.command.gamemode.others");
     }
 }

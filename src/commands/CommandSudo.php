@@ -13,6 +13,7 @@ class CommandSudo extends Command {
 
     public function __construct() {
         parent::__construct("sudo", "Execute a command as another player", "/sudo <player> <command>", ["runas"]);
+        $this->setPermission("essentials.sudo");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): void {
@@ -37,11 +38,6 @@ class CommandSudo extends Command {
 
         if (!$sender->hasPermission("essentials.sudo")) {
             $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command.");
-            return;
-        }
-
-        if ($targetPlayer->hasPermission("essentials.sudo.exempt")) {
-            $sender->sendMessage(TextFormat::RED . "Player is exempt from sudo.");
             return;
         }
 

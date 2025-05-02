@@ -98,15 +98,63 @@ class PlayerListener implements Listener
         $command = $event->getCommand();
 
         if (!$player instanceof Player) return;
+
+        if ($player->hasPermission("essentialsz.command.bypass.cooldown")) {
+
+            $user = EssentialsZPlugin::getInstance()->getUserManager()->getUser($player);
+            if ($user->getTempData("isSocialSpyEnabled")) {
+                foreach (EssentialsZPlugin::getInstance()->getServer()->getOnlinePlayers() as $onlinePlayer) {
+                    $onlineUser = EssentialsZPlugin::getInstance()->getUserManager()->getUser($onlinePlayer);
+                    if ($onlineUser->getTempData("isSocialSpyEnabled") && $onlinePlayer !== $player) {
+                        $onlinePlayer->sendMessage("[" . $player->getDisplayName() . "] used command: " . $command);
+                    }
+                }
+            }
+
+            return;
+        }
+
+        $config = EssentialsZPlugin::getInstance()->getConfig();
+        $cooldown = $this->getCooldownForCommand($command, $config);
+
+        if ($cooldown === null) {
+            return;
+        }
+
+        $playerName = $player->getName();
+        $cooldowns = EssentialsZPlugin::getInstance()->getDataFolder() . "cooldowns.json";
+
+        if (!file_exists($cooldowns)) {
+            file_put_contents($cooldowns, json_encode([]));
+        }
+
+        $cooldownsData = json_decode(file_get_contents($cooldowns), true);
+
+        if (isset($cooldownsData[$playerName][$command]) && time() < $cooldownsData[$playerName][$command]) {
+            $timeLeft = $cooldownsData[$playerName][$command] - time();
+            $player->sendMessage(TextFormat::RED . "You must wait $timeLeft seconds before using this command again.");
+            $event->cancel(true);
+            return;
+        }
+
         $user = EssentialsZPlugin::getInstance()->getUserManager()->getUser($player);
-        if ($user->isSocialSpyEnabled()) {
+        if ($user->getTempData("isSocialSpyEnabled")) {
             foreach (EssentialsZPlugin::getInstance()->getServer()->getOnlinePlayers() as $onlinePlayer) {
                 $onlineUser = EssentialsZPlugin::getInstance()->getUserManager()->getUser($onlinePlayer);
-                if ($onlineUser->isSocialSpyEnabled() && $onlinePlayer !== $player) {
+                if ($onlineUser->getTempData("isSocialSpyEnabled") && $onlinePlayer !== $player) {
                     $onlinePlayer->sendMessage("[" . $player->getDisplayName() . "] used command: " . $command);
                 }
             }
         }
+
+        $cooldownsData[$playerName][$command] = time() + $cooldown;
+        file_put_contents($cooldowns, json_encode($cooldownsData));
+    }
+    private function getCooldownForCommand(string $command, $config): ?int {
+        if (isset($config->get("commands_cooldown")[$command]["cooldown"])) {
+            return $config->get("commands_cooldown")[$command]["cooldown"];
+        }
+        return null;
     }
 
 

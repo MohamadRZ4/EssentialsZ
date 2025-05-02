@@ -18,14 +18,10 @@ class User
     private mixed $quitTime;
     private mixed $firstJoinTime;
     private mixed $lastPosition;
-    private mixed $nickname;
     /** @var ?Player */
     private ?Player $parent;
     /** @var array<string, mixed> */
     private array $tempData = [];
-    private mixed $socialSpyEnabled;
-    private mixed $spiderEnabled;
-    private mixed $flyEnabled;
 
     public function __construct($xuid, $data)
     {
@@ -37,10 +33,6 @@ class User
         $this->firstJoinTime = $data["firstJoinTime"];
         $this->lastPosition = $data["lastPosition"] !== null ? PositionUtils::stringToPosition($data["lastPosition"]) : "";
         $this->isJaild = $data["isJailed"];
-        $this->nickname = $data["nickname"];
-        $this->socialSpyEnabled = $data["socialSpy"];
-        $this->flyEnabled = $data["fly"];
-        $this->spiderEnabled = $data["spider"];
     }
 
     /**
@@ -140,29 +132,6 @@ class User
     }
 
     /**
-     * @return mixed
-     */
-    public function getNickname(): mixed
-    {
-        return $this->nickname === "none" ? $this->getUsername() : $this->nickname;
-    }
-
-    /**
-     * @param mixed $nickname
-     */
-    public function setNickname(mixed $nickname): void
-    {
-        if ($nickname === "none") {
-            $this->setNickname("none");
-            $this->getParent()?->setDisplayName($this->getParent()?->getName());
-            return;
-        }
-
-        $this->nickname = $nickname;
-        $this->getParent()?->setDisplayName($this->getNickname());
-    }
-
-    /**
      * @return Player|null
      */
     public function getParent(): ?Player
@@ -230,39 +199,12 @@ class User
             "firstJoinTime" => $this->firstJoinTime,
             "lastPosition" => $this->lastPosition,
             "isJaild" => $this->isJaild,
-            "nickname" => $this->nickname,
         ];
-    }
-
-    public function setSocialSpyEnabled(bool $enabled): void
-    {
-        $this->socialSpyEnabled = $enabled;
-    }
-
-    public function isSocialSpyEnabled()
-    {
-        return $this->socialSpyEnabled;
     }
 
     public function setFlyEnabled(bool $enabled): void
     {
-        $this->flyEnabled = $enabled;
         $this->getParent()?->setAllowFlight($enabled);
         $this->getParent()?->setFlying($enabled);
-    }
-
-    public function isFlyEnabled()
-    {
-        return $this->flyEnabled;
-    }
-
-    public function setSpiderEnabled(bool $enabled): void
-    {
-        $this->spiderEnabled = $enabled;
-    }
-
-    public function isSpiderEnabled()
-    {
-        return $this->spiderEnabled;
     }
 }

@@ -3,8 +3,11 @@
 namespace MohamadRZ\EssentialsZ;
 
 use MohamadRZ\EssentialsZ\commands\BreakCommand;
+use MohamadRZ\EssentialsZ\commands\FeedCommand;
 use MohamadRZ\EssentialsZ\commands\FlyCommand;
+use MohamadRZ\EssentialsZ\commands\GameModeCommand;
 use MohamadRZ\EssentialsZ\commands\GodCommand;
+use MohamadRZ\EssentialsZ\commands\HealCommand;
 use MohamadRZ\EssentialsZ\commands\NickCommand;
 use MohamadRZ\EssentialsZ\commands\RealNameCommand;
 use MohamadRZ\EssentialsZ\commands\SizeCommand;
@@ -50,27 +53,13 @@ class EssentialsZPlugin extends PluginBase
         $timer->mark("Commmand Regster");
         foreach ($commands as $commandName) {
             switch ($commandName) {
-                case "nick":
-                        $this->getServer()->getCommandMap()->register("nick", new NickCommand($this));
-                    break;
-                case "realname":
-                        $this->getServer()->getCommandMap()->register("realname", new RealNameCommand($this));
-                    break;
                 case "size":
                         $this->getServer()->getCommandMap()->register("size", new SizeCommand($this));
                     break;
-/*                case "gmv":
-                        $this->getServer()->getCommandMap()->register("gmv", new GMVCommand($this));
+                case "gamemode":
+                    $this->getServer()->getCommandMap()->unregister(new \pocketmine\command\defaults\GamemodeCommand());
+                        $this->getServer()->getCommandMap()->register("gmv", new GameModeCommand($this));
                     break;
-                case "gms":
-                        $this->getServer()->getCommandMap()->register("gms", new GMSCommand($this));
-                    break;
-                case "gmc":
-                        $this->getServer()->getCommandMap()->register("gmc", new GMCCommand($this));
-                    break;
-                case "gma":
-                        $this->getServer()->getCommandMap()->register("gma", new GMACommand($this));
-                    break;*/
                 case "god":
                     $this->getServer()->getCommandMap()->register("god", new GodCommand($this));
                     break;
@@ -79,6 +68,15 @@ class EssentialsZPlugin extends PluginBase
                     break;
                 case "spider":
                     $this->getServer()->getCommandMap()->register("spider", new SpiderCommand($this));
+                    break;
+                case "feed":
+                    $this->getServer()->getCommandMap()->register("feed", new FeedCommand($this));
+                    break;
+                case "heal":
+                    $this->getServer()->getCommandMap()->register("heal", new HealCommand($this));
+                    break;
+                case "break":
+                    $this->getServer()->getCommandMap()->register("break", new BreakCommand($this));
                     break;
                 default:
                     $this->getLogger()->warning("Unknown command in config: $commandName");
