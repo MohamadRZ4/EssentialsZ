@@ -8,8 +8,6 @@ use MohamadRZ\EssentialsZ\commands\FlyCommand;
 use MohamadRZ\EssentialsZ\commands\GameModeCommand;
 use MohamadRZ\EssentialsZ\commands\GodCommand;
 use MohamadRZ\EssentialsZ\commands\HealCommand;
-use MohamadRZ\EssentialsZ\commands\NickCommand;
-use MohamadRZ\EssentialsZ\commands\RealNameCommand;
 use MohamadRZ\EssentialsZ\commands\SizeCommand;
 use MohamadRZ\EssentialsZ\commands\SpiderCommand;
 use MohamadRZ\EssentialsZ\settings\Settings;
