@@ -11,6 +11,7 @@ class FeedCommand extends Command
 {
     public function __construct() {
         parent::__construct("feed", "Feed yourself or another player");
+        $this->setPermission("essentialsz.command.feed");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): void {

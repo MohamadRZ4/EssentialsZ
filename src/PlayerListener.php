@@ -6,6 +6,7 @@ namespace MohamadRZ\EssentialsZ;
 use MohamadRZ\EssentialsZ\EssentialsZPlugin;
 use MohamadRZ\EssentialsZ\settings\SettingPaths;
 use MohamadRZ\EssentialsZ\utils\PositionUtils;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
@@ -155,6 +156,18 @@ class PlayerListener implements Listener
             return $config->get("commands_cooldown")[$command]["cooldown"];
         }
         return null;
+    }
+
+    public function onEntityDamage(EntityDamageByEntityEvent $event)
+    {
+        $player = $event->getEntity();
+
+        if ($player instanceof Player) {
+            if ($player->isFlying() && ($player->isSurvival() || $player->isAdventure())) {
+                $player->setAllowFlight(false);
+                $player->setFlying(false);
+            }
+        }
     }
 
 

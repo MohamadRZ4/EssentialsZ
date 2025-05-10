@@ -11,6 +11,7 @@ class HealCommand extends Command
 {
     public function __construct() {
         parent::__construct("heal", "Heal yourself or another player");
+        $this->setPermission("essentialsz.command.heal");
     }
 
     public function execute(CommandSender $sender, string $commandLabel, array $args): void {

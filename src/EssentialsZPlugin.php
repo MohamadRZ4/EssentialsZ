@@ -42,6 +42,7 @@ class EssentialsZPlugin extends PluginBase
         $this->settings = new Settings();
         $this->warp = new Warp();
 
+        $this->saveDefaultConfig();
         $config = new Config($this->getDataFolder() . "config.yml", Config::YAML);
         $commands = $config->get("commands", []);
 
@@ -56,7 +57,7 @@ class EssentialsZPlugin extends PluginBase
                     break;
                 case "gamemode":
                     $this->getServer()->getCommandMap()->unregister(new \pocketmine\command\defaults\GamemodeCommand());
-                        $this->getServer()->getCommandMap()->register("gmv", new GameModeCommand($this));
+                        $this->getServer()->getCommandMap()->register("gamemode", new GameModeCommand($this));
                     break;
                 case "god":
                     $this->getServer()->getCommandMap()->register("god", new GodCommand($this));
@@ -82,7 +83,6 @@ class EssentialsZPlugin extends PluginBase
             }
         }
         $this->getLogger()->info($timer->end());
-        $this->getServer()->getCommandMap()->register("break", new BreakCommand($this));
         $this->getServer()->getPluginManager()->registerEvents(new PlayerListener($this), $this);
     }
 

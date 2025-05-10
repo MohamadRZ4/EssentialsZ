@@ -4,6 +4,11 @@ commands:
   - "spider"
   - "god"
   - "fly"
+  - "socialspy"
+  - "sudo"
+  - "feed"
+  - "heal"
+  - "break"
 
 commands_cooldown:
   feed:
